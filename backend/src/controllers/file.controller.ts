@@ -6,7 +6,6 @@ import pdfParse from 'pdf-parse';
 import textract from 'textract';
 import archiver from 'archiver';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
-// import prisma from '../config/database';
 import { FileProcessingError } from '../utils/errors';
 
 const UPLOAD_DIR = path.join(__dirname, '../../public/uploads');
@@ -77,19 +76,7 @@ export const proccessFile = async (
 
     // Process file
     const extractedText = await extractTextFromFile(filePath, fileExt);
-    /*
-    // Create document in database
-    try {
-      await prisma.document.create({
-        data: {
-          originalName: originalname,
-          processedText: extractedText,
-        },
-      });
-    } catch (error) {
-      throw new FileProcessingError('Failed to save document to database', 500, 'DATABASE_ERROR');
-    }
-    */
+    
 
     // Generate output files
     const doc = new Document({
@@ -124,8 +111,8 @@ export const proccessFile = async (
       const archive = archiver('zip', { zlib: { level: 9 } });
 
       archive.pipe(output);
-      archive.file(outputDocxPath, { name: `${originalname.split('.')[0]}output.docx` });
-      archive.file(outputTxtPath, { name: `${originalname.split('.')[0]}output.txt` });
+      archive.file(outputDocxPath, { name: 'output.docx' });
+      archive.file(outputTxtPath, { name: 'output.txt' });
 
       await new Promise<void>((resolve, reject) => {
         output.on('close', resolve);

@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL as string;
 export default function FileUpload() {
   const [status, setStatus] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,13 +20,12 @@ export default function FileUpload() {
           setIsLoading(true);
           setStatus('Processing file...');
 
-          const response = await fetch('http://localhost:5000/api/files/upload', {
+          const response = await fetch(API_URL, {
               method: 'POST',
               body: formData
           });
 
           if (!response.ok) {
-                console.log(response)
               throw new Error(`HTTP error! status: ${response.status}`);
           }
 
@@ -69,7 +69,7 @@ export default function FileUpload() {
                   disabled={isLoading}
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
               >
-                  {isLoading ? 'Processing...' : 'Upload and Process'}
+                  {isLoading ? 'Procesando...' : 'Sube y procesa el archivo'}
               </button>
           </form>
           {status && (
