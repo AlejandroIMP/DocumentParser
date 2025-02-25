@@ -17,6 +17,11 @@ RUN pnpm install --frozen-lockfile
 # Copy source code
 COPY . .
 
+# Create necessary directories and set permissions
+RUN mkdir -p /app/public/uploads /app/public/outputs && \
+  chown -R node:node /app/public
+
+
 # Exponer el puerto
 EXPOSE 5000
 
